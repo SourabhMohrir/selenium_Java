@@ -1,0 +1,4 @@
+com/framework/pages/BasePage.class
+com/framework/pages/LoginPage.class
+com/framework/utils/WebDriverManager.class
+com/framework/pages/DashboardPage.class
