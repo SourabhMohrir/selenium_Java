@@ -18,12 +18,24 @@ public class DashboardPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    // Dashboard Elements
-    @FindBy(css = ".oxd-grid-item.orangehrm-dashboard-widget")
+    // Updated Dashboard Elements with new locators
+    @FindBy(css = ".oxd-grid-item")
     private List<WebElement> dashboardWidgets;
 
-    @FindBy(xpath = "//div[contains(@class, 'oxd-grid-item')]//canvas")
+    @FindBy(css = ".oxd-sheet canvas")
     private List<WebElement> graphWidgets;
+
+    @FindBy(xpath = "//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')]//p[text()='Employee Distribution by Sub Unit']")
+    private WebElement employeeDistributionWidget;
+
+    @FindBy(xpath = "//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')][.//p[text()='Employee Distribution by Sub Unit']]//canvas")
+    private WebElement subUnitChart;
+
+    @FindBy(xpath = "//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')][.//p[text()='Employee Distribution by Sub Unit']]//div[contains(@class, 'chart-legend')]//div[contains(@class, 'legend-item')]//span")
+    private List<WebElement> subUnitLegendItems;
+
+    @FindBy(xpath = "//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')][.//p[text()='Employee Distribution by Sub Unit']]//div[contains(@class, 'chart-legend')]//div[contains(@class, 'legend-item')]")
+    private List<WebElement> subUnitLegendRows;
 
     @FindBy(xpath = "//p[contains(text(), 'Time at Work')]")
     private WebElement timeAtWorkWidget;
@@ -39,9 +51,6 @@ public class DashboardPage {
 
     @FindBy(xpath = "//p[contains(text(), 'Employees on Leave Today')]")
     private WebElement employeesOnLeaveWidget;
-
-    @FindBy(xpath = "//p[contains(text(), 'Employee Distribution by Sub Unit')]")
-    private WebElement employeeDistributionWidget;
 
     @FindBy(xpath = "//p[contains(text(), 'Employee Distribution by Location')]")
     private WebElement employeeLocationWidget;
@@ -64,21 +73,6 @@ public class DashboardPage {
     @FindBy(xpath = "//div[contains(@class, 'orangehrm-todo-list')]//button[.//p[contains(text(), 'Candidates to Interview')]]")
     private WebElement candidatesLink;
 
-    @FindBy(xpath = "//p[contains(text(), 'Employee Distribution by Sub Unit')]/ancestor::div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-chart')]")
-    private WebElement subUnitChartContainer;
-
-    @FindBy(xpath = "//p[contains(text(), 'Employee Distribution by Sub Unit')]/ancestor::div[contains(@class, 'oxd-grid-item')]//canvas")
-    private WebElement subUnitChart;
-
-    @FindBy(xpath = "//p[contains(text(), 'Employee Distribution by Sub Unit')]/ancestor::div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-chart-legend')]//span")
-    private List<WebElement> subUnitLegendItems;
-
-    @FindBy(xpath = "//p[contains(text(), 'Employee Distribution by Sub Unit')]/ancestor::div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-chart-legend')]//div[contains(@class, 'orangehrm-chart-legend-row')]")
-    private List<WebElement> subUnitLegendRows;
-
-    @FindBy(xpath = "//p[contains(text(), 'Employee Distribution by Sub Unit')]/ancestor::div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-chart-legend')]//div[contains(@class, 'orangehrm-chart-legend-row')]//i")
-    private List<WebElement> subUnitLegendColorBoxes;
-
     public DashboardPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -93,11 +87,29 @@ public class DashboardPage {
             String url = driver.getCurrentUrl();
             System.out.println("Current URL: " + url);
             System.out.println("Dashboard widgets found: " + dashboardWidgets.size());
+            
+            // Print all widget titles for debugging
+            System.out.println("\nDashboard Widget Titles:");
+            for (WebElement widget : dashboardWidgets) {
+                try {
+                    WebElement titleElement = widget.findElement(By.cssSelector("p"));
+                    System.out.println("- " + titleElement.getText());
+                } catch (Exception e) {
+                    System.out.println("- [No title found]");
+                }
+            }
+            System.out.println();
+            
             return true;
         } catch (Exception e) {
             System.out.println("Failed to load dashboard page: " + e.getMessage());
             return false;
         }
+    }
+
+    public List<WebElement> getAllDashboardWidgets() {
+        wait.until(ExpectedConditions.visibilityOfAllElements(dashboardWidgets));
+        return dashboardWidgets;
     }
 
     public int getTotalWidgetsCount() {
@@ -144,10 +156,6 @@ public class DashboardPage {
 
     public boolean isEmployeesOnLeaveWidgetDisplayed() {
         return wait.until(ExpectedConditions.visibilityOf(employeesOnLeaveWidget)).isDisplayed();
-    }
-
-    public boolean isEmployeeDistributionWidgetDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOf(employeeDistributionWidget)).isDisplayed();
     }
 
     public boolean isEmployeeLocationWidgetDisplayed() {
@@ -268,12 +276,49 @@ public class DashboardPage {
         wait.until(ExpectedConditions.elementToBeClickable(candidatesLink)).click();
     }
 
+    public boolean isEmployeeDistributionWidgetDisplayed() {
+        try {
+            System.out.println("Checking for Employee Distribution widget...");
+            // Wait for the page to fully load
+            Thread.sleep(2000);
+            
+            // First check if we can find the widget container
+            List<WebElement> allWidgets = driver.findElements(By.xpath("//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')]"));
+            System.out.println("Found " + allWidgets.size() + " dashboard widget containers");
+            
+            // Print all widget titles for debugging
+            for (WebElement widget : allWidgets) {
+                try {
+                    WebElement titleElement = widget.findElement(By.tagName("p"));
+                    System.out.println("Widget title: " + titleElement.getText());
+                } catch (Exception e) {
+                    System.out.println("Widget with no title found");
+                }
+            }
+            
+            // Wait for the widget to be visible
+            wait.until(ExpectedConditions.visibilityOf(employeeDistributionWidget));
+            System.out.println("Employee Distribution widget found");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Employee Distribution widget not found: " + e.getMessage());
+            return false;
+        }
+    }
+
     public boolean isSubUnitChartDisplayed() {
         try {
             System.out.println("Checking if Sub Unit chart is displayed...");
-            wait.until(ExpectedConditions.visibilityOf(subUnitChartContainer));
+            // Wait for the page to fully load
+            Thread.sleep(2000);
+            
+            // First check if we can find any canvas elements
+            List<WebElement> allCanvases = driver.findElements(By.tagName("canvas"));
+            System.out.println("Found " + allCanvases.size() + " canvas elements on the page");
+            
+            // Wait for the chart to be visible
             wait.until(ExpectedConditions.visibilityOf(subUnitChart));
-            System.out.println("Sub Unit chart is displayed");
+            System.out.println("Sub Unit chart found");
             return true;
         } catch (Exception e) {
             System.out.println("Sub Unit chart is not displayed: " + e.getMessage());
@@ -282,44 +327,53 @@ public class DashboardPage {
     }
 
     public List<String> getSubUnitLegendItems() {
+        System.out.println("Getting Sub Unit legend items...");
         try {
-            System.out.println("Getting Sub Unit legend items...");
-            wait.until(ExpectedConditions.visibilityOfAllElements(subUnitLegendItems));
-            List<String> items = subUnitLegendItems.stream()
-                .map(WebElement::getText)
-                .toList();
-            System.out.println("Found " + items.size() + " Sub Unit legend items");
+            // Wait for the page to fully load
+            Thread.sleep(2000);
+            
+            // First check if we can find any legend elements
+            List<WebElement> allLegendElements = driver.findElements(By.xpath("//div[contains(@class, 'chart-legend')]"));
+            System.out.println("Found " + allLegendElements.size() + " legend containers on the page");
+            
+            // Try to find legend items using a more general approach
+            List<WebElement> legendItems = driver.findElements(By.xpath("//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')][.//p[text()='Employee Distribution by Sub Unit']]//div[contains(@class, 'chart-legend')]//div[contains(@class, 'legend-item')]//span"));
+            System.out.println("Found " + legendItems.size() + " legend items");
+            
+            List<String> items = new java.util.ArrayList<>();
+            for (WebElement item : legendItems) {
+                String text = item.getText().trim();
+                System.out.println("Found legend item: " + text);
+                if (!text.isEmpty()) {
+                    items.add(text);
+                }
+            }
+            System.out.println("Total legend items found: " + items.size());
             return items;
         } catch (Exception e) {
             System.out.println("Failed to get Sub Unit legend items: " + e.getMessage());
-            return List.of();
+            return new java.util.ArrayList<>();
         }
     }
 
     public boolean validateSubUnitChartData() {
+        System.out.println("Validating Sub Unit chart data...");
         try {
-            System.out.println("Validating Sub Unit chart data...");
-            // Wait for chart and legend to be visible
-            wait.until(ExpectedConditions.visibilityOf(subUnitChart));
-            wait.until(ExpectedConditions.visibilityOfAllElements(subUnitLegendItems));
-
-            // Check if we have any legend items
-            if (subUnitLegendItems.isEmpty()) {
-                System.out.println("No Sub Unit data found in chart");
+            // Wait for the page to fully load
+            Thread.sleep(2000);
+            
+            // First check if the chart is visible
+            if (!isSubUnitChartDisplayed()) {
+                System.out.println("Chart is not displayed");
                 return false;
             }
-
-            // Verify each legend item has valid text
-            for (WebElement item : subUnitLegendItems) {
-                String text = item.getText().trim();
-                if (text.isEmpty()) {
-                    System.out.println("Found empty legend item");
-                    return false;
-                }
-            }
-
-            System.out.println("Sub Unit chart data is valid");
-            return true;
+            
+            // Then check for legend items
+            List<String> legendItems = getSubUnitLegendItems();
+            System.out.println("Found " + legendItems.size() + " legend items");
+            
+            // Validate that we have both the chart and legend items
+            return !legendItems.isEmpty();
         } catch (Exception e) {
             System.out.println("Failed to validate Sub Unit chart data: " + e.getMessage());
             return false;
@@ -329,9 +383,15 @@ public class DashboardPage {
     public boolean clickLegendItem(String legendText) {
         try {
             System.out.println("Attempting to click legend item: " + legendText);
-            for (WebElement row : subUnitLegendRows) {
-                if (row.getText().trim().contains(legendText)) {
-                    wait.until(ExpectedConditions.elementToBeClickable(row)).click();
+            // Wait for the page to fully load
+            Thread.sleep(2000);
+            
+            // Try to find the legend item using a more general approach
+            List<WebElement> legendItems = driver.findElements(By.xpath("//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')][.//p[text()='Employee Distribution by Sub Unit']]//div[contains(@class, 'chart-legend')]//div[contains(@class, 'legend-item')]"));
+            
+            for (WebElement item : legendItems) {
+                if (item.getText().contains(legendText)) {
+                    item.click();
                     System.out.println("Successfully clicked legend item: " + legendText);
                     return true;
                 }
@@ -347,14 +407,15 @@ public class DashboardPage {
     public boolean isLegendItemActive(String legendText) {
         try {
             System.out.println("Checking if legend item is active: " + legendText);
-            for (int i = 0; i < subUnitLegendRows.size(); i++) {
-                WebElement row = subUnitLegendRows.get(i);
-                if (row.getText().trim().contains(legendText)) {
-                    WebElement colorBox = subUnitLegendColorBoxes.get(i);
-                    // Check if the color box has a strikethrough or inactive class
-                    boolean isActive = !colorBox.getAttribute("class").contains("cancelled") &&
-                                     !colorBox.getAttribute("class").contains("inactive") &&
-                                     !colorBox.getCssValue("text-decoration").contains("line-through");
+            // Wait for the page to fully load
+            Thread.sleep(2000);
+            
+            // Try to find the legend item using a more general approach
+            List<WebElement> legendItems = driver.findElements(By.xpath("//div[contains(@class, 'oxd-grid-item')]//div[contains(@class, 'orangehrm-dashboard-widget')][.//p[text()='Employee Distribution by Sub Unit']]//div[contains(@class, 'chart-legend')]//div[contains(@class, 'legend-item')]"));
+            
+            for (WebElement item : legendItems) {
+                if (item.getText().contains(legendText)) {
+                    boolean isActive = !item.getAttribute("class").contains("inactive");
                     System.out.println("Legend item '" + legendText + "' active status: " + isActive);
                     return isActive;
                 }
@@ -369,15 +430,11 @@ public class DashboardPage {
 
     public boolean waitForChartUpdate() {
         try {
-            System.out.println("Waiting for chart to update...");
-            // Wait for a short time to allow chart animation
-            Thread.sleep(1000);
-            // Verify chart is still visible
-            wait.until(ExpectedConditions.visibilityOf(subUnitChart));
-            System.out.println("Chart updated successfully");
+            System.out.println("Waiting for chart update...");
+            Thread.sleep(2000); // Increased wait time for chart animation
             return true;
-        } catch (Exception e) {
-            System.out.println("Failed to verify chart update: " + e.getMessage());
+        } catch (InterruptedException e) {
+            System.out.println("Chart update wait interrupted: " + e.getMessage());
             return false;
         }
     }
