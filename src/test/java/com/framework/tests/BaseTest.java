@@ -5,9 +5,9 @@ import com.framework.utils.WebDriverManager;
 
 public class BaseTest {
     
-    @Parameters("browser")
+    @Parameters({"browser"})
     @BeforeMethod
-    public void setup(String browser) {
+    public void setup(@Optional("chrome") String browser) {
         WebDriverManager.setDriver(browser);
     }
 

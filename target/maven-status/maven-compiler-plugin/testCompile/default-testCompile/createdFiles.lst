@@ -1,4 +1,5 @@
+com/framework/tests/DashboardMyActionsTest.class
 com/framework/tests/BaseTest.class
-com/framework/tests/DashboardTest.class
 com/framework/tests/SampleTest.class
+com/framework/tests/DashboardEmployeeDistributionTest.class
 com/framework/tests/LoginTest.class

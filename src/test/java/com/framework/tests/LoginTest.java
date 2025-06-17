@@ -32,4 +32,70 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(WebDriverManager.getDriver().getCurrentUrl().contains("/dashboard"), 
             "Not redirected to dashboard after login");
     }
+
+    @Test
+    public void testInvalidCredentials() {
+        loginPage = new LoginPage(WebDriverManager.getDriver());
+        loginPage.navigateToLoginPage();
+        
+        // Enter invalid credentials
+        loginPage.enterUsername("invalid_user");
+        loginPage.enterPassword("invalid_pass");
+        loginPage.clickLoginButton();
+        
+        // Verify error message
+        Assert.assertTrue(loginPage.isOnLoginPage(), "Not on login page after invalid login attempt");
+        String errorMsg = loginPage.getErrorMessage();
+        Assert.assertTrue(errorMsg.contains("Invalid credentials"), 
+            "Expected error message about invalid credentials, but got: " + errorMsg);
+    }
+
+    @Test
+    public void testEmptyCredentials() {
+        loginPage = new LoginPage(WebDriverManager.getDriver());
+        loginPage.navigateToLoginPage();
+        
+        // Click login without entering credentials
+        loginPage.clickLoginButton();
+        
+        // Verify error message
+        Assert.assertTrue(loginPage.isOnLoginPage(), "Not on login page after empty login attempt");
+        String errorMsg = loginPage.getErrorMessage();
+        Assert.assertTrue(errorMsg.contains("Required"), 
+            "Expected error message about required fields, but got: " + errorMsg);
+    }
+
+    @Test
+    public void testValidUserInvalidPassword() {
+        loginPage = new LoginPage(WebDriverManager.getDriver());
+        loginPage.navigateToLoginPage();
+        
+        // Enter valid username but invalid password
+        loginPage.enterUsername("Admin");
+        loginPage.enterPassword("wrong_password");
+        loginPage.clickLoginButton();
+        
+        // Verify error message
+        Assert.assertTrue(loginPage.isOnLoginPage(), "Not on login page after invalid login attempt");
+        String errorMsg = loginPage.getErrorMessage();
+        Assert.assertTrue(errorMsg.contains("Invalid credentials"), 
+            "Expected error message about invalid credentials, but got: " + errorMsg);
+    }
+
+    @Test
+    public void testInvalidUserValidPassword() {
+        loginPage = new LoginPage(WebDriverManager.getDriver());
+        loginPage.navigateToLoginPage();
+        
+        // Enter invalid username but valid password
+        loginPage.enterUsername("WrongAdmin");
+        loginPage.enterPassword("admin123");
+        loginPage.clickLoginButton();
+        
+        // Verify error message
+        Assert.assertTrue(loginPage.isOnLoginPage(), "Not on login page after invalid login attempt");
+        String errorMsg = loginPage.getErrorMessage();
+        Assert.assertTrue(errorMsg.contains("Invalid credentials"), 
+            "Expected error message about invalid credentials, but got: " + errorMsg);
+    }
 } 

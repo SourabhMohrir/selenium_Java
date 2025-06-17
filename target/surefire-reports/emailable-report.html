@@ -8,31 +8,42 @@
 <body>
 <table>
 <tr><th>Test</th><th># Passed</th><th># Skipped</th><th># Retried</th><th># Failed</th><th>Time (ms)</th><th>Included Groups</th><th>Excluded Groups</th></tr>
-<tr><th colspan="8">OrangeHRM Test Suite</th></tr>
-<tr><td><a href="#t0">Authentication Tests</a></td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">18,264</td><td></td><td></td></tr>
-<tr class="stripe"><td><a href="#t1">Dashboard Tests</a></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num attn">1</td><td class="num">43,952</td><td></td><td></td></tr>
-<tr><th>Total</th><th class="num">1</th><th class="num">0</th><th class="num">0</th><th class="num attn">1</th><th class="num">62,216</th><th colspan="2"></th></tr>
+<tr><th colspan="8">Surefire suite</th></tr>
+<tr><td><a href="#t0">Surefire test</a></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num attn">5</td><td class="num">194,961</td><td></td><td></td></tr>
 </table>
-<table id='summary'><thead><tr><th>Class</th><th>Method</th><th>Start</th><th>Time (ms)</th></tr></thead><tbody><tr><th colspan="4">OrangeHRM Test Suite</th></tr></tbody><tbody id="t0"><tr><th colspan="4">Authentication Tests &#8212; passed</th></tr><tr class="passedeven"><td rowspan="1">com.framework.tests.LoginTest</td><td><a href="#m0">testSuccessfulLogin</a></td><td rowspan="1">1750073649385</td><td rowspan="1">17173</td></tr></tbody>
-<tbody id="t1"><tr><th colspan="4">Dashboard Tests &#8212; failed</th></tr><tr class="failedeven"><td rowspan="1">com.framework.tests.DashboardTest</td><td><a href="#m1">testDashboardGraphsPresent</a></td><td rowspan="1">1750073667187</td><td rowspan="1">43321</td></tr></tbody>
+<table id='summary'><thead><tr><th>Class</th><th>Method</th><th>Start</th><th>Time (ms)</th></tr></thead><tbody><tr><th colspan="4">Surefire suite</th></tr></tbody><tbody id="t0"><tr><th colspan="4">Surefire test &#8212; failed</th></tr><tr class="failedeven"><td rowspan="5">com.framework.tests.DashboardEmployeeDistributionTest</td><td><a href="#m0">testLegendInteractions</a></td><td rowspan="1">1750152074056</td><td rowspan="1">37286</td></tr><tr class="failedeven"><td><a href="#m1">testSubUnitChartData</a></td><td rowspan="1">1750152111981</td><td rowspan="1">39301</td></tr><tr class="failedeven"><td><a href="#m2">testSubUnitChartDisplayed</a></td><td rowspan="1">1750152151827</td><td rowspan="1">39567</td></tr><tr class="failedeven"><td><a href="#m3">testSubUnitLegendItems</a></td><td rowspan="1">1750152192112</td><td rowspan="1">36322</td></tr><tr class="failedeven"><td><a href="#m4">testSubUnitWidgetPresent</a></td><td rowspan="1">1750152229080</td><td rowspan="1">37353</td></tr></tbody>
 </table>
-<h2>Authentication Tests</h2><h3 id="m0">com.framework.tests.LoginTest#testSuccessfulLogin</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
-<h2>Dashboard Tests</h2><h3 id="m1">com.framework.tests.DashboardTest#testDashboardGraphsPresent</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of Proxy element for: DefaultElementLocator &apos;By.xpath: //p[contains(text(), &apos;Time at Work&apos;)]&apos; (tried for 20 second(s) with 500 milliseconds interval)
+<h2>Surefire test</h2><h3 id="m0">com.framework.tests.DashboardEmployeeDistributionTest#testLegendInteractions</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">java.lang.AssertionError: No legend items found in Employee Distribution chart expected [false] but found [true]
+	at com.framework.tests.DashboardEmployeeDistributionTest.testLegendInteractions(DashboardEmployeeDistributionTest.java:115)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+... Removed 33 stack frames</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m1">com.framework.tests.DashboardEmployeeDistributionTest#testSubUnitChartData</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">java.lang.AssertionError: Employee Distribution chart data validation failed expected [true] but found [false]
+	at com.framework.tests.DashboardEmployeeDistributionTest.testSubUnitChartData(DashboardEmployeeDistributionTest.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+... Removed 33 stack frames</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m2">com.framework.tests.DashboardEmployeeDistributionTest#testSubUnitChartDisplayed</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">java.lang.AssertionError: Employee Distribution chart is not displayed expected [true] but found [false]
+	at com.framework.tests.DashboardEmployeeDistributionTest.testSubUnitChartDisplayed(DashboardEmployeeDistributionTest.java:48)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+... Removed 33 stack frames</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m3">com.framework.tests.DashboardEmployeeDistributionTest#testSubUnitLegendItems</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">java.lang.AssertionError: No legend items found in Employee Distribution chart expected [false] but found [true]
+	at com.framework.tests.DashboardEmployeeDistributionTest.testSubUnitLegendItems(DashboardEmployeeDistributionTest.java:70)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+... Removed 33 stack frames</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m4">com.framework.tests.DashboardEmployeeDistributionTest#testSubUnitWidgetPresent</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of Proxy element for: DefaultElementLocator &apos;By.xpath: //p[contains(text(), &apos;Employee Distribution by Sub Unit&apos;)]&apos; (tried for 20 second(s) with 500 milliseconds interval)
 	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
 	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
-	at com.framework.pages.DashboardPage.isTimeAtWorkWidgetDisplayed(DashboardPage.java:62)
-	at com.framework.pages.DashboardPage.validateAllWidgetsPresent(DashboardPage.java:86)
-	at com.framework.tests.DashboardTest.testDashboardGraphsPresent(DashboardTest.java:35)
+	at com.framework.pages.DashboardPage.isEmployeeDistributionWidgetDisplayed(DashboardPage.java:150)
+	at com.framework.tests.DashboardEmployeeDistributionTest.testSubUnitWidgetPresent(DashboardEmployeeDistributionTest.java:29)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//p[contains(text(), &apos;Time at Work&apos;)]&quot;}
+Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//p[contains(text(), &apos;Employee Distribution by Sub Unit&apos;)]&quot;}
   (Session info: chrome=134.0.6998.165)
 For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
 Build info: version: &apos;4.18.1&apos;, revision: &apos;b1d3319b48&apos;
 System info: os.name: &apos;Linux&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;6.8.0-59-generic&apos;, java.version: &apos;21.0.7&apos;
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [7fc484a64dd218df2416c81e779d9f5a, findElement {value=//p[contains(text(), &apos;Time at Work&apos;)], using=xpath}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 134.0.6998.165, chrome: {chromedriverVersion: 134.0.6998.165 (fd886e2cb29..., userDataDir: /tmp/.org.chromium.Chromium...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:35015}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: linux, proxy: Proxy(), se:cdp: ws://localhost:35015/devtoo..., se:cdpVersion: 134.0.6998.165, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 7fc484a64dd218df2416c81e779d9f5a
+Command: [4eaee0b869e5b3cb830980a20daeb827, findElement {using=xpath, value=//p[contains(text(), &apos;Employee Distribution by Sub Unit&apos;)]}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 134.0.6998.165, chrome: {chromedriverVersion: 134.0.6998.165 (fd886e2cb29..., userDataDir: /tmp/.org.chromium.Chromium...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:41677}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: linux, proxy: Proxy(), se:cdp: ws://localhost:41677/devtoo..., se:cdpVersion: 134.0.6998.165, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 4eaee0b869e5b3cb830980a20daeb827
 	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
 	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
 	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
@@ -46,12 +57,12 @@ Session ID: 7fc484a64dd218df2416c81e779d9f5a
 	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:350)
 	at org.openqa.selenium.support.pagefactory.DefaultElementLocator.findElement(DefaultElementLocator.java:68)
 	at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:38)
-	at jdk.proxy2/jdk.proxy2.$Proxy10.isDisplayed(Unknown Source)
+	at jdk.proxy2/jdk.proxy2.$Proxy11.isDisplayed(Unknown Source)
 	at org.openqa.selenium.support.ui.ExpectedConditions.elementIfVisible(ExpectedConditions.java:304)
 	at org.openqa.selenium.support.ui.ExpectedConditions$10.apply(ExpectedConditions.java:290)
 	at org.openqa.selenium.support.ui.ExpectedConditions$10.apply(ExpectedConditions.java:287)
 	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:203)
 	... 33 more
-... Removed 32 stack frames</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+... Removed 33 stack frames</div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
 </body>
 </html>

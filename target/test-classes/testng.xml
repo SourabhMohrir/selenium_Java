@@ -8,10 +8,11 @@
             <class name="com.framework.tests.LoginTest"/>
         </classes>
     </test>
-    
+
     <test name="Dashboard Tests">
         <classes>
-            <class name="com.framework.tests.DashboardTest"/>
+            <class name="com.framework.tests.DashboardMyActionsTest"/>
+            <class name="com.framework.tests.DashboardEmployeeDistributionTest"/>
         </classes>
     </test>
 </suite> 

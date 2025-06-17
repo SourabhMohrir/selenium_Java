@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import java.time.Duration;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class WebDriverManager {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
@@ -24,7 +26,10 @@ public class WebDriverManager {
         switch (browserType.toLowerCase()) {
             case "chrome":
                 io.github.bonigarcia.wdm.WebDriverManager.chromedriver().setup();
-                webDriver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                webDriver = new ChromeDriver(options);
                 break;
             case "firefox":
                 io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver().setup();
@@ -38,6 +43,9 @@ public class WebDriverManager {
                 throw new IllegalArgumentException("Browser type not supported: " + browserType);
         }
         webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+        System.out.println("Browser started: " + browserType);
         driver.set(webDriver);
     }
 
@@ -45,6 +53,7 @@ public class WebDriverManager {
         if (driver.get() != null) {
             driver.get().quit();
             driver.remove();
+            System.out.println("Browser closed");
         }
     }
 } 
